@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   Box,
   Button,
@@ -16,13 +16,17 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
+import axios from 'axios'
+
+import { getAuthToken, setAuthToken } from '../../AuthService';
+import { BackendURL } from '../../config';
 export const Signin = () => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   });
-
+  const [isLoading,setLoading] = useState(false)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({
@@ -31,23 +35,43 @@ export const Signin = () => {
     }));
   };
 
+  useEffect(() => {
+    const token = getAuthToken(); // Retrieve the JWT token from the cookie
+
+    if (token) {
+      if(token != '')
+      {
+        navigate('/');
+      }
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform sign-in or form submission logic here
-    console.log(formValues);
-    // Reset form values
-    setFormValues({
-      email: '',
-      password: '',
-    });
+    axios.post(BackendURL+'/users/signin',formValues).then((res) => {
+      setAuthToken(res.data.token);
+      setLoading(false);
+      navigate('/');
+    }).catch((err) => {
+      if(err.response){
+        if(err.response.data){
+          console.log(err.response.data)
+          alert(err.response.data);
+        }else{
+          alert(err)
+        }
+        setLoading(false)
+      }
+    })
   };
 
   return (
-    <Flex flex={1} padding={['4px','30px','30px']}  alignItems="center" justify="center" width="100wh" >
+    <Flex flex={1} padding={['8px','30px','30px']}  alignItems="center" justify="center" width="100wh" >
 
     <Card>
         <CardHeader>
-            <Heading size='md'>Sign Up</Heading>
+            <Heading size='md'>Sign In</Heading>
         </CardHeader>
         <CardBody>
             <Box p={'8px'}  justifyContent={'center'} width='400px' >
@@ -72,7 +96,7 @@ export const Signin = () => {
                 />
               </FormControl>
 
-              <Button colorScheme="blue" type="submit" onClick={handleSubmit}>
+              <Button isLoading={ isLoading } colorScheme="blue" type="submit" onClick={handleSubmit}>
                 Sign In
               </Button>
 
