@@ -19,8 +19,8 @@ export const AppHeader = () => {
       "link":'/'
     },
     {
-      "label":"Buy NFT",
-      "link":"./buy"
+      "label":"My NFT",
+      "link":"./mynft"
     }
   ];
  
@@ -54,7 +54,7 @@ export const AppHeader = () => {
           <VStack spacing={4} flexDirection={'row'}>
             {
               nav_items.map(element => (
-                <Button as='a' onClick={()=> {navigate(element.link)}} variant="link">
+                <Button as='a' onClick={()=> {navigate(element.link)}} key={element.link} variant="link">
                   {element.label}
                 </Button>
               ) )
@@ -73,7 +73,7 @@ export const AppHeader = () => {
         <VStack spacing={4} align="center" mt={4}>
             {
               nav_items.map(element => (
-                <Button as='a' onClick={()=> {navigate(element.link)}} variant="link">
+                <Button as='a' onClick={()=> {navigate(element.link)}} key={element.link} variant="link">
                   {element.label}
                 </Button>
               ) )

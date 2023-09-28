@@ -5,7 +5,7 @@ import './App.css'
 import { Routes,Route,BrowserRouter, useNavigate }  from 'react-router-dom'
 
 import { AppHeader,AppFooter } from './components'
-import { Home, Signin, Signup, Signout } from './components/Pages'
+import { Home, Signin, Signup, Signout,   MyNFT } from './components/Pages'
 import store from './store'
 
 import { Provider } from 'react-redux'
@@ -23,6 +23,7 @@ function App() {
                 <Route exact path='/signin' element={<Signin/>}/>
                 <Route exact path='/signup' element={<Signup/>}/>
                 <Route exact path='/signout' element={<Signout/>}/>
+                <Route exact path='/mynft' element={<MyNFT/>}/>
               </Routes>
             </Flex>
             

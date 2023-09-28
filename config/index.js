@@ -13,5 +13,6 @@ module.exports = {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	},
+	DBNAME:'Fanorak',
 	secretKey: '100ds0skdkzlweka'
 };

@@ -2,14 +2,23 @@ var express = require('express');
 var bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validateSignupParameters, validateSigninParameters } = require('../validators');
-const {secretKey} = require('../config')
+const {secretKey} = require('../config');
+const { authenticateToken } = require('./authenticator');
 var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send({});
 });
-
+router.post('/me',authenticateToken,async (req,res,next)=> {
+  let collection = global.mongoClient.db('Fanorak').collection('users');
+  const user = await collection.findOne({ email: req.user.email });
+  if('nft' in user){
+    return res.send({token:'1223'});
+  }else{
+    return res.send({});
+  }
+})
 router.post('/signin',async (req,res,next) => {
   let validationErrors = validateSigninParameters(req.body);
   if(Object.keys(validationErrors).length){
@@ -24,7 +33,7 @@ router.post('/signin',async (req,res,next) => {
       if (err) {
         return res.status(500).send({"error":"servererror","data":err});
       } else if (isMatch) {
-        const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, {  });
         return res.status(200).send({"token":token})
       } else {
         return res.status(400).send({"error":"Invalid credential","data":{}})
@@ -34,8 +43,6 @@ router.post('/signin',async (req,res,next) => {
   else{
     return res.status(400).send({"error":"Invalid credential","data":{}})
   }
-  
-  
 })
 router.post('/signup',async (req,res,next) => {
   let validationErrors = validateSignupParameters(req.body);
@@ -64,4 +71,5 @@ router.post('/signup',async (req,res,next) => {
   })
   
 })
+
 module.exports = router;
