@@ -1,2 +1,2 @@
-export const BackendURL='https://localhost:3000'
-export const Current = 'https://localhost:5173'
+export const BackendURL='https://fotom.finance:3000'
+export const Current = 'https://fotom.finance:5173'
