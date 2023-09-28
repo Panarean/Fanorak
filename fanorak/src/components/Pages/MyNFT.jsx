@@ -4,10 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAuthToken } from '../../AuthService';
 import axios from 'axios'
 import { BackendURL } from '../../config';
-import NFTCard from '../NFTCard';
-
-import { CrossmintPayButton, CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
-
+import BuyNFT from './BuyNFT'
 export const MyNFT = () => {
   const navigate = useNavigate();
   const [isLoading,setLoading] = useState(true);
@@ -39,9 +36,7 @@ export const MyNFT = () => {
     })
   },[])
 
-  const onEvent = (e) =>{
-    console.log(e)
-  }
+
 
   if(isLoading){
     return (
@@ -56,47 +51,10 @@ export const MyNFT = () => {
        p="4" maxWidth="400px" margin="0 auto" 
        justifyContent={'center'}  alignItems={'center'} 
        flexDir='column'
-       borderWidth="1px" 
-       borderRadius="lg" 
        overflow="hidden" 
       >
-        <Image src={BackendURL+'/api/images/collection.jpg'} alt="NFT Collection" mb={5}/>
-        <CrossmintPayButton
-          projectId="28bb67ed-7209-4923-9a95-93794e1d8ac9"
-          collectionId="9adc0145-e8b2-414e-b20f-536c3dcc6c02"
-          environment="staging"
-          mintConfig={{
-            type: "erc-721"
-            // your custom minting arguments...
-          }}
-          className='payButton'
-          
-        />
-        <CrossmintPayButton
-          projectId="28bb67ed-7209-4923-9a95-93794e1d8ac9"
-          collectionId="9adc0145-e8b2-414e-b20f-536c3dcc6c02"
-          environment="staging"
-          mintConfig={{
-            type: "erc-721"
-            // your custom minting arguments...
-          }}
-          paymentMethod='ETH'
-          className='payButton'
-        />
-        <CrossmintPayButton
-          projectId="28bb67ed-7209-4923-9a95-93794e1d8ac9"
-          collectionId="9adc0145-e8b2-414e-b20f-536c3dcc6c02"
-          environment="staging"
-          mintConfig={{
-            type: "erc-721"
-            // your custom minting arguments...
-          }}
-          paymentMethod='SOL'
-          className='payButton'
-        />
-
-      
-  </Flex>
+        <BuyNFT />
+      </Flex>
     )
   }
   return (

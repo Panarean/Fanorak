@@ -7,7 +7,7 @@ function authenticateToken(req, res, next) {
   if (!token) {
     return res.status(401).json({ data: 'No token provided' });
   }
-
+  a=jwt.decode(token);
   jwt.verify(token, secretKey, (err, user) => {
     if (err) {
       return res.status(403).json({ data: 'Invalid token' });

@@ -42,7 +42,7 @@ export const AppHeader = () => {
   
   
   return (
-    <Box as="header" p={4} bg="gray.100">
+    <Box as="header" p={4} >
       <Flex align="center" justify="space-between">
         <Box>
           <img src="logo.png" alt="Logo" width="50px" />
