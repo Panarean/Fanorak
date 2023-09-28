@@ -13,6 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var nftsRouter = require('./routes/nfts');
 var crossmintHookRouter = require('./routes/crossmintHook')
+var stripehookRouter = require('./routes/stripehook')
 const config = require('./config')
 var app = express();
 
@@ -35,6 +36,7 @@ MongoClient.connect(config.mongoURL, config.mongoOPTIONs).then(async (_client)=>
   app.use('/', indexRouter);
   app.use('/users', usersRouter);
   app.use('/nfts', nftsRouter);
+  app.use('/stripeHook',stripehookRouter);
   app.use('/crossmintHook',crossmintHookRouter);
   app.get('/api/images/:imageName', (req, res) => {
     const imageName = req.params.imageName;
